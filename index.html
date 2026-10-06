@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#6b321f" />
+  <meta name="description" content="A special audio message from Coffeol." />
+  <title>A Special Message | Coffeol</title>
+  <style>
+    :root {
+      --brown: #6b321f;
+      --brown-dark: #4b2115;
+      --gold: #c8a76b;
+      --gold-soft: #e5d3ae;
+      --cream: #fbf8f1;
+      --text: #3d2a22;
+      --muted: #786b64;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(200,167,107,.14), transparent 28%),
+        radial-gradient(circle at 85% 90%, rgba(107,50,31,.08), transparent 30%),
+        var(--cream);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 16px;
+    }
+
+    .card {
+      width: min(100%, 520px);
+      background: rgba(255,255,255,.96);
+      border: 1px solid rgba(200,167,107,.45);
+      border-radius: 24px;
+      padding: 34px 26px 28px;
+      text-align: center;
+      box-shadow: 0 18px 50px rgba(75,33,21,.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(200,167,107,.25);
+      border-radius: 18px;
+      pointer-events: none;
+    }
+
+    .logo-wrap {
+      width: 132px;
+      height: 132px;
+      margin: 0 auto 22px;
+      border-radius: 50%;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      width: 122px;
+      height: 122px;
+      object-fit: contain;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .eyebrow {
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      font-size: 11px;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--brown);
+      font-size: clamp(30px, 8vw, 42px);
+      line-height: 1.05;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+
+    .divider {
+      width: 58px;
+      height: 1px;
+      background: var(--gold);
+      margin: 18px auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .message {
+      margin: 0 auto;
+      max-width: 390px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.65;
+      position: relative;
+      z-index: 1;
+    }
+
+    .player {
+      margin: 28px auto 0;
+      padding: 20px;
+      background: #f8f3e9;
+      border: 1px solid rgba(200,167,107,.35);
+      border-radius: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .play-btn {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      border: 0;
+      background: var(--brown);
+      color: white;
+      cursor: pointer;
+      font-size: 27px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 5px;
+      box-shadow: 0 8px 22px rgba(107,50,31,.25);
+      transition: transform .18s ease, background .18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .play-btn:active { transform: scale(.95); }
+    .play-btn:hover { background: var(--brown-dark); }
+
+    .status {
+      margin-top: 12px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .progress {
+      width: 100%;
+      height: 5px;
+      margin-top: 17px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #e6dccb;
+      cursor: pointer;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--gold);
+      transition: width .1s linear;
+    }
+
+    .time {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      color: #958980;
+    }
+
+    .footer {
+      margin-top: 22px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10px;
+      letter-spacing: .12em;
+      color: #aa9b91;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .error {
+      display: none;
+      margin-top: 12px;
+      color: #9a3c2d;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 420px) {
+      body { padding: 16px 10px; }
+      .card { padding: 28px 18px 24px; border-radius: 20px; }
+      .logo-wrap { width: 112px; height: 112px; }
+      .logo { width: 104px; height: 104px; }
+      .message { font-size: 16px; }
+      .player { padding: 18px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="logo-wrap">
+      <img class="logo" src="logo.jpg" alt="Coffeol logo" />
+    </div>
+
+    <!-- CHANGE THESE THREE TEXTS IF YOU WANT -->
+    <div class="eyebrow">A message for you</div>
+    <h1>A Special Message</h1>
+    <div class="divider"></div>
+    <p class="message">
+      Take a moment, press play, and enjoy this special message.
+    </p>
+
+    <section class="player" aria-label="Audio player">
+      <button class="play-btn" id="playButton" aria-label="Play audio">▶</button>
+      <div class="status" id="status">Tap to play</div>
+      <div class="progress" id="progress" aria-label="Audio progress">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="time">
+        <span id="currentTime">0:00</span>
+        <span id="duration">0:00</span>
+      </div>
+      <div class="error" id="error">
+        Audio could not be loaded. Make sure your MP3 file is named <strong>audio.mp3</strong> and is uploaded in the same folder as this webpage.
+      </div>
+    </section>
+
+    <div class="footer">Coffeol • Coffee for All</div>
+
+    <!-- Put your MP3 in this same folder and name it audio.mp3 -->
+    <audio id="audio" preload="metadata" src="audio.mp3"></audio>
+  </main>
+
+  <script>
+    const audio = document.getElementById('audio');
+    const playButton = document.getElementById('playButton');
+    const status = document.getElementById('status');
+    const progress = document.getElementById('progress');
+    const progressFill = document.getElementById('progressFill');
+    const currentTime = document.getElementById('currentTime');
+    const duration = document.getElementById('duration');
+    const error = document.getElementById('error');
+
+    function formatTime(seconds) {
+      if (!Number.isFinite(seconds)) return '0:00';
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${mins}:${secs}`;
+    }
+
+    function setPlayingUI(isPlaying) {
+      playButton.textContent = isPlaying ? '❚❚' : '▶';
+      status.textContent = isPlaying ? 'Playing' : 'Tap to play';
+    }
+
+    async function toggleAudio() {
+      try {
+        if (audio.paused) {
+          await audio.play();
+        } else {
+          audio.pause();
+        }
+      } catch (e) {
+        status.textContent = 'Tap to play';
+      }
+    }
+
+    playButton.addEventListener('click', toggleAudio);
+
+    audio.addEventListener('loadedmetadata', () => {
+      duration.textContent = formatTime(audio.duration);
+      error.style.display = 'none';
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      currentTime.textContent = formatTime(audio.currentTime);
+      const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+      progressFill.style.width = `${pct}%`;
+    });
+
+    audio.addEventListener('play', () => setPlayingUI(true));
+    audio.addEventListener('pause', () => setPlayingUI(false));
+    audio.addEventListener('ended', () => {
+      setPlayingUI(false);
+      progressFill.style.width = '0%';
+      currentTime.textContent = '0:00';
+    });
+
+    audio.addEventListener('error', () => {
+      error.style.display = 'block';
+      status.textContent = 'Audio unavailable';
+    });
+
+    progress.addEventListener('click', (event) => {
+      if (!audio.duration) return;
+      const rect = progress.getBoundingClientRect();
+      const percent = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
+      audio.currentTime = percent * audio.duration;
+    });
+
+    // Try autoplay. Mobile browsers may block this; if they do, the Play button remains available.
+    window.addEventListener('load', async () => {
+      try {
+        await audio.play();
+      } catch (e) {
+        status.textContent = 'Tap to play';
+      }
+    });
+  </script>
+</body>
+</html>
